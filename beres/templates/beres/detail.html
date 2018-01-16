@@ -1,0 +1,124 @@
+{% extends 'beres/base.html' %} {% block javascript %}
+<script>
+    $(document).ready(function() {
+
+
+        $("body").tooltip({
+            selector: "[data-toggle='tooltip']"
+        })
+
+    });
+
+    function AddVote(resource_id, tag_id, vote_up) {
+
+        $.ajax({
+            url: "{% url 'beres:add_resource_vote' %}",
+            data: {
+                'resource_id': resource_id,
+                'vote_up': vote_up
+            },
+            dataType: 'json',
+            success: function(data) {
+                var results_tag = $(".js-resource-vote-counts-" + tag_id);
+                var down_vote_button_tag = $(".js-resource-vote-down-button-" + tag_id);
+                var up_vote_button_tag = $(".js-resource-vote-up-button-" + tag_id);
+                var positive_votes = parseInt(data.positive_votes)
+                var negative_votes = parseInt(data.negative_votes)
+                var total_votes = positive_votes - negative_votes
+
+                if (data.voted_up == true) {
+                    up_vote_button_tag.removeClass("text-success");
+                    up_vote_button_tag.addClass("text-muted");
+
+                    down_vote_button_tag.removeClass("text-muted");
+                    down_vote_button_tag.addClass("text-danger");
+                } else {
+                    down_vote_button_tag.removeClass("text-danger");
+                    down_vote_button_tag.addClass("text-muted");
+
+                    up_vote_button_tag.removeClass("text-muted");
+                    up_vote_button_tag.addClass("text-success");
+                }
+
+
+                results_tag.text(total_votes.toString());
+            },
+
+        });
+    }
+
+    function showPreview(url) {
+        $("#siteloader").html('<object data="https://www.google.com" />');
+    }
+
+    function hidePreview() {
+        window.close();
+    }
+
+</script>
+{% endblock %} {% block content %}
+
+<h1>{{ topic.name }}</h1>
+
+{% if topic.resource_set.count == 0 %}
+
+<div class="alert alert-info">
+    <strong>Oooops!</strong> There are no resources for this topic. Be the first to add one.
+</div>
+
+{% else %}
+<ul class="list-group">
+    <form action="">
+        {% for resource in topic.resource_set.all %}
+            <li class="list-group-item">{{ resource.name }} :
+                 
+                <a href="{{resource.url}}" onmouseover="showPreview(this.href);" onmouseout="hidePreview();">{{resource.url | truncatechars:50}}</a>
+                <span class="js-resource-vote-counts-{{ forloop.counter }} badge badge-light">{{resource.total_resource_votes}}</span> {% if resource.free %}
+                <span class="pull-right label label-success label-detail-items">Free</span> {% else %}
+                <span class="pull-right label label-warning
+                    label-detail-items">Paid</span> {% endif %}
+                {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_negative_vote and resource.id in user_votes %}
+                     <a class="js-resource-vote-down-button-{{forloop.counter}} pull-right fas fa-thumbs-down label-detail-items tooltips text-muted" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');">
+                                            <span>
+                                                 {% if request.user.is_authenticated %}
+                                                    You've Voted
+                                                {% else %}
+                                                    Login to Vote
+                                                {% endif %}                       
+                                            </span>
+                                            </a> 
+                {% else %}
+                    <a class="js-resource-vote-down-button-{{forloop.counter}} pull-right fas fa-thumbs-down label-detail-items tooltips text-danger" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');"></a> 
+                {% endif %} 
+                
+                {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_positive_vote and resource.id in user_votes %}
+
+                    <a class="js-resource-vote-up-button-{{forloop.counter}} pull-right fas fa-thumbs-up label-detail-items text-muted tooltips" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'true');">
+
+                                            <span>
+                                                {% if request.user.is_authenticated %}
+                                                    You've Voted
+                                                {% else %}
+                                                    Login to Vote
+                                                {% endif %}
+                                            </span>
+                                            </a> 
+                {% else %}
+                    <a class="pull-right js-resource-vote-up-button-{{forloop.counter}} fas fa-thumbs-up label-detail-items text-success" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'true');"></a> 
+                {% endif %}
+
+                <span class="resource-id-holder hide">{{resource.id}}</span>
+            </li>
+        {% endfor %}
+    </form>
+</ul>
+
+{% endif %} {% if request.user.is_authenticated %}
+<a href="{% url 'beres:new_resource' topic.id %}" class="btn btn-primary">Add Resource</a> {% else %}
+<p>If you'd like to create a topic, please <a href="{% url 'beres:login' %}">login</a>. If you don't have an account, click <a href="{% url 'beres:register' %}">register</a>. to set one up.</p>
+{% endif %}
+
+
+<div id="#siteloader"></div>
+
+{% endblock %}

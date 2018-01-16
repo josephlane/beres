@@ -1,0 +1,104 @@
+{% extends 'beres/base.html' %} {% block javascript %}
+<script>
+    $("#topic-search").keyup(function() {
+        var search_topic_name = $(this).val().trim();
+        var search_topic_list = $("#search-topics-data-list");
+        var topic_search_label = $(".topic-search-label");
+        var search_results_container = $(".search-results-container");
+
+        if (search_topic_name.length >= 3) {
+            $.ajax({
+                url: "{% url 'beres:search_topic_name' %}",
+                data: {
+                    'search_topic_name': search_topic_name
+                },
+                dataType: 'json',
+                success: function(data) {
+                    var topics = jQuery.parseJSON(data.topics);
+
+                    if (topics.length > 0) {
+                        search_topic_list.empty();
+
+                        for (i = 0; i <= topics.length; i++) {
+                            var topic_name = topics[i]['fields'].name;
+                            var topic_id = topics[i].pk;
+                            search_topic_list.append("<option id='" + topic_id + "' value='" + topic_name + "'>" + topic_name + "</option>");
+
+                        }
+
+                    }
+                }
+            });
+
+        }
+
+    });
+
+    $("#topic-search").on('input', function() {
+        var val = this.value;
+        var id;
+        if ($('#search-topics-data-list option').filter(function() {
+                if (this.value === val) {
+                    id = this.id;
+                }
+                return this.value === val;
+            }).length) {
+            window.location.href = id + "/"
+        }
+    });
+
+</script>
+{% endblock %} {% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="text-secondary">Trending Topics</h2>
+        {% if latest_topics %}
+
+        <p class="lead">Here's a snapshot of the top trending topics from around the world</p>
+        <ul class="list-group">
+            {% for topic in latest_topics %}
+            <li class="list-group-item"><a href="{% url 'beres:detail' topic.id %}">{{ topic.name }}</a>
+                <span class="badge badge-light">{{topic.resource_count}} </span>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>Search</h4>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+                <form method="post">
+                    <input list="search-topics-data-list" on name="topic-search" id="topic-search" class="form-control" placeholder="Enter topic name here to search...">
+                    <datalist id="search-topics-data-list">
+                            </datalist>
+
+                </form>
+            </div>
+
+        </div>
+        {% else %}
+        <br />
+        <div class="alert alert-info">
+            <strong>Oooops!</strong> There are no Topics. Be the first to add one.
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        {% if request.user.is_authenticated %}
+        <p>Don't see a topic of interest? You can create one by clicking the button below</p>
+        <a href="{% url 'beres:new_topic' %}" class="btn btn-success">Create New Topic</a> {% else %}
+        <p>If you'd like to create a topic, please <a href="{% url 'beres:login' %}">login</a>. If you don't have an account, click <a href="{% url 'beres:register' %}">register</a>. to set one up.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

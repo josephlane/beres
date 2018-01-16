@@ -1,0 +1,41 @@
+{% extends 'beres/base.html' %} {% block content %}
+
+<br />
+<br />
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Login</h2>
+            </div>
+        </div>
+
+        <form method="post">
+            <div class="row">
+                <div class="col-lg-12">
+                    {% csrf_token %} {% include 'beres/show_form_errors.html' %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" name="username" placeholder="username" required_id="id_username" maxlength="254" autofocus="True">
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-12">
+                    <input type="password" class="form-control" name="password" required_id="id_password" placeholder="password" maxlength="254" autofocus="True">
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-12">
+                    <button type="submit" class="btn btn-success">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
