@@ -32,7 +32,10 @@ def detail(request, topic_id):
     
     topic = get_object_or_404(Topic, pk=topic_id)
     
-    user_votes_by_resource_id = Votes.objects.filter(user=request.user).values_list('resource_id',
+    user_votes_by_resource_id = []
+
+    if request.user.is_authenticated:
+        user_votes_by_resource_id = Votes.objects.filter(user=request.user).values_list('resource_id',
             flat=True)
 
     return render(request, 'beres/detail.html', {'topic': topic, 'user_votes':
