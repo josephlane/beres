@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3)cg2np5)wx2jx%m7bka1r&8ud*=8ax=eedh8=++ph795&v11x'
+SECRET_KEY = os.environ['SECRET_KEY'] 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 LOGIN_REDIRECT_URL = '/beres'
 
@@ -74,17 +74,20 @@ WSGI_APPLICATION = 'resources.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
+import dj_database_url
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'beres',
-        'USER': 'admin',
-        'PASSWORD': 'abcd1234',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+DATABASES['default'] = dj_database_url.config()
+DATABASES['default']['CONN_MAX_AGE'] = 500
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        #'NAME': 'beres',
+#        #'USER': 'admin',
+#        #'PASSWORD': 'abcd1234',
+#        'HOST': os.environ['DATABASE_URL'],
+#        #'PORT': '',
+#    }
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
