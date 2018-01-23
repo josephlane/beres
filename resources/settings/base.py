@@ -62,6 +62,7 @@ TEMPLATES = [
          },
     },
 ]
+WSGI_APPLICATION = 'resources.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
