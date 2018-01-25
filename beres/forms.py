@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Topic
+from .models import Topic, Resource
 from django.views.generic.edit import CreateView
 from django import forms
 from django.contrib.auth.models import User
@@ -9,7 +9,12 @@ class TopicForm(ModelForm):
     class Meta:
         model = Topic
         fields = ['name']
-                
+
+class ResourceForm(ModelForm):
+    class Meta:
+        model = Resource
+        fields = ['url', 'free']
+
 class CustomUserCreationForm(forms.Form):
     username  = forms.CharField(label='Enter Username', min_length=4, max_length=150)
     email     = forms.EmailField(label='Enter email')

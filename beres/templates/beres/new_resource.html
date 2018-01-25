@@ -8,11 +8,8 @@
     </div>
 
 </div>
-
-
-<div class="row">
-
-    <div class="col-lg-12">
+<br />
+<div class="row"> <div class="col-lg-12">
         {% if error_message %}
         <p><strong>{{ error_message }}</strong></p>
         {% endif %}
@@ -24,17 +21,13 @@
     {% csrf_token %}
 
     <div class="row">
-
-
         <div class="col-lg-3">
-            <input type="text" name="name" class="form-control" placeholder="Name" id="name" />
-        </div>
-
-        <div class="col-lg-3">
-            <input type="text" class="form-control" name="url" placeholder="URL To Website" id="url" />
+            <input type="url" class="form-control" name="url" placeholder="URL
+" id="id_url" required />
         </div>
 
     </div>
+    <br />
     <div class="row">
 
         <div class="col-lg-12">
@@ -43,7 +36,7 @@
 
         </div>
     </div>
-
+    <br />
     <div class="row">
         <div class="col-lg-12">
             <input type="hidden" name="topic_id" value="{{topic_id}}" />
@@ -54,6 +47,5 @@
     </div>
 
 </form>
-
 
 {% endblock %}

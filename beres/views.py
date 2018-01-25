@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Topic, Resource, Votes
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from .forms import TopicForm, CustomUserCreationForm
+from .forms import TopicForm, CustomUserCreationForm, ResourceForm
 from django.db.models import Count, F
 from django.http import JsonResponse
 from django.core import serializers
@@ -70,7 +70,8 @@ def new_resource(request, topic_id):
     """
     
     if request.user.is_authenticated:
-        context = {'topic_id': topic_id}
+        form = ResourceForm()
+        context = {'topic_id': topic_id, 'form': form}
         return render(request, 'beres/new_resource.html', context)
     else:
         return HttpResponseRedirect(reverse('beres:index'))
@@ -82,18 +83,22 @@ def save_resource(request, topic_id):
     
     """
     if request.user.is_authenticated:
-        topic        = get_object_or_404(Topic, pk=topic_id)   
-        try:
-            name     = request.POST['name']
-            url      = request.POST['url']
-            print(request.POST['free'])
-            free     = True if request.POST['free'] == 'Free' else False
-            resource = Resource(topic=topic, url=url, name=name, free=free, user=request.user)
-            resource.save()
-            return HttpResponseRedirect(reverse('beres:detail', args=(topic.id,)))
-        except Exception as e:
-            return render(request, 'beres/new_resource.html', 
-                         {'topic': topic, 'error_message': e})
+        topic        = get_object_or_404(Topic, pk=topic_id)
+        form         = ResourceForm(request.POST)
+        if form.is_valid():
+
+            try:
+                    url      = request.POST['url']
+                    free     = True if request.POST['free'] == 'Free' else False
+                    resource = Resource(topic=topic, url=url, free=free, user=request.user)
+                    resource.save()
+                    return HttpResponseRedirect(reverse('beres:detail', args=(topic.id,)))
+            except Exception as e:
+                return render(request, 'beres/new_resource.html', 
+                             {'topic': topic, 'error_message': e})
+        else:
+            return render(request, 'beres/new_resource.html', {'topic': topic,
+                'error_message': form.errors})
     else:
         return HttpResponseRedirect(reverse('beres:index'))
 

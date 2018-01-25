@@ -70,7 +70,7 @@
 <ul class="list-group">
     <form action="">
         {% for resource in topic.resource_set.all %}
-            <li class="list-group-item">{{ resource.name }} :
+            <li class="list-group-item">
                  
                 <a href="{{resource.url}}" onmouseover="showPreview(this.href);" onmouseout="hidePreview();">{{resource.url | truncatechars:50}}</a>
                 <span class="js-resource-vote-counts-{{ forloop.counter }} badge badge-light">{{resource.total_resource_votes}}</span> {% if resource.free %}
