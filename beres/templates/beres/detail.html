@@ -83,23 +83,7 @@
                 <span class="badge badge-warning
                     label-detail-items">Paid</span> {% endif %}
   </div>
-  <div class="p-2">
-                {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_negative_vote and resource.id in user_votes %}
-                     <a class="js-resource-vote-down-button-{{forloop.counter}} fas fa-thumbs-down label-detail-items tooltips text-muted" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');">
-                                            <span>
-                                                 {% if request.user.is_authenticated %}
-                                                    You've Voted
-                                                {% else %}
-                                                    Login to Vote
-                                                {% endif %}                       
-                                            </span>
-                                            </a> 
-                {% else %}
-                    <a class="js-resource-vote-down-button-{{forloop.counter}} fas fa-thumbs-down label-detail-items tooltips text-danger" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');"></a> 
-                {% endif %} 
-     
-  </div>
-  <div class="p-2">
+    <div class="p-2">
    
                 {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_positive_vote and resource.id in user_votes %}
 
@@ -118,6 +102,23 @@
                 {% endif %}
 
 </div>
+
+  <div class="p-2">
+                {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_negative_vote and resource.id in user_votes %}
+                     <a class="js-resource-vote-down-button-{{forloop.counter}} fas fa-thumbs-down label-detail-items tooltips text-muted" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');">
+                                            <span>
+                                                 {% if request.user.is_authenticated %}
+                                                    You've Voted
+                                                {% else %}
+                                                    Login to Vote
+                                                {% endif %}                       
+                                            </span>
+                                            </a> 
+                {% else %}
+                    <a class="js-resource-vote-down-button-{{forloop.counter}} fas fa-thumbs-down label-detail-items tooltips text-danger" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');"></a> 
+                {% endif %} 
+     
+  </div>
                 <span class="resource-id-holder invisible">{{resource.id}}</span>
                 <span class="js-resource-vote-counts-{{ forloop.counter }} badge badge-light">{{resource.total_resource_votes}}</span>
  

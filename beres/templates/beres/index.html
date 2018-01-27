@@ -96,7 +96,7 @@
         {% if request.user.is_authenticated %}
         <p>Don't see a topic of interest? You can create one by clicking the button below</p>
         <a href="{% url 'beres:new_topic' %}" class="btn btn-success">Create New Topic</a> {% else %}
-        <p>If you'd like to create a topic, please <a href="{% url 'beres:login' %}">login</a>. If you don't have an account, click <a href="{% url 'beres:register' %}">register</a>. to set one up.</p>
+        <p>If you'd like to create a topic, please <a href="{% url 'beres:login' %}">login</a>. If you don't have an account, click <a href="{% url 'beres:register' %}">register</a> to set one up.</p>
         {% endif %}
     </div>
 </div>

@@ -24,7 +24,7 @@ def index(request):
     """
     latest_topics = Topic.objects.all().annotate(
         resource_count=Count('resource')
-    ).order_by('-resource_count')[:10]
+    ).order_by('-resource_count')[:8]
 
     topic_form = TopicForm()
     context = {'latest_topics': latest_topics, 'topic_form': topic_form}
