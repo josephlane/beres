@@ -58,7 +58,7 @@
 </script>
 {% endblock %} {% block content %}
 
-<h1>{{ topic.name }}</h1>
+<h1 class="text-secondary">{{ topic.name }}</h1>
 
 {% if topic.resource_set.count == 0 %}
 
@@ -67,18 +67,25 @@
 </div>
 
 {% else %}
+<div class="row">
+    <div class="col-lg-12">
 <ul class="list-group">
     <form action="">
         {% for resource in topic.resource_set.all %}
-            <li class="list-group-item">
-                 
-                <a href="{{resource.url}}" onmouseover="showPreview(this.href);" onmouseout="hidePreview();">{{resource.url | truncatechars:50}}</a>
-                <span class="js-resource-vote-counts-{{ forloop.counter }} badge badge-light">{{resource.total_resource_votes}}</span> {% if resource.free %}
-                <span class="pull-right label label-success label-detail-items">Free</span> {% else %}
-                <span class="pull-right label label-warning
+            <li class="list-group-item d-flex justify-content-between
+                align-items-center">
+                <div class="p-2">                 
+                <a href="{{resource.url}}" target="_blank" onmouseover="showPreview(this.href);" onmouseout="hidePreview();">{{resource.url | truncatechars:50}}</a>
+        </div>
+  <div class="mr-auto p-2">
+                {% if resource.free %}
+                <span class="badge badge-success">Free</span> {% else %}
+                <span class="badge badge-warning
                     label-detail-items">Paid</span> {% endif %}
+  </div>
+  <div class="p-2">
                 {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_negative_vote and resource.id in user_votes %}
-                     <a class="js-resource-vote-down-button-{{forloop.counter}} pull-right fas fa-thumbs-down label-detail-items tooltips text-muted" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');">
+                     <a class="js-resource-vote-down-button-{{forloop.counter}} fas fa-thumbs-down label-detail-items tooltips text-muted" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');">
                                             <span>
                                                  {% if request.user.is_authenticated %}
                                                     You've Voted
@@ -88,12 +95,15 @@
                                             </span>
                                             </a> 
                 {% else %}
-                    <a class="js-resource-vote-down-button-{{forloop.counter}} pull-right fas fa-thumbs-down label-detail-items tooltips text-danger" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');"></a> 
+                    <a class="js-resource-vote-down-button-{{forloop.counter}} fas fa-thumbs-down label-detail-items tooltips text-danger" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'false');"></a> 
                 {% endif %} 
-                
+     
+  </div>
+  <div class="p-2">
+   
                 {% if not request.user.is_authenticated or request.user.is_authenticated and resource.user_voted and resource.user_positive_vote and resource.id in user_votes %}
 
-                    <a class="js-resource-vote-up-button-{{forloop.counter}} pull-right fas fa-thumbs-up label-detail-items text-muted tooltips" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'true');">
+                    <a class="js-resource-vote-up-button-{{forloop.counter}}  fas fa-thumbs-up label-detail-items text-muted tooltips" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'true');">
 
                                             <span>
                                                 {% if request.user.is_authenticated %}
@@ -107,17 +117,26 @@
                     <a class="pull-right js-resource-vote-up-button-{{forloop.counter}} fas fa-thumbs-up label-detail-items text-success" onclick="AddVote({{resource.id}}, {{ forloop.counter }}, 'true');"></a> 
                 {% endif %}
 
-                <span class="resource-id-holder hide">{{resource.id}}</span>
+</div>
+                <span class="resource-id-holder invisible">{{resource.id}}</span>
+                <span class="js-resource-vote-counts-{{ forloop.counter }} badge badge-light">{{resource.total_resource_votes}}</span>
+ 
             </li>
         {% endfor %}
     </form>
 </ul>
-
-{% endif %} {% if request.user.is_authenticated %}
-<a href="{% url 'beres:new_resource' topic.id %}" class="btn btn-primary">Add Resource</a> {% else %}
+    </div>
+</div>
+{% endif %}
+<br />
+<div class="row">
+    <div class="col-lg-12">
+{% if request.user.is_authenticated %}
+<a href="{% url 'beres:new_resource' topic.id %}" class="btn btn-success">Add Resource</a> {% else %}
 <p>If you'd like to create a topic, please <a href="{% url 'beres:login' %}">login</a>. If you don't have an account, click <a href="{% url 'beres:register' %}">register</a>. to set one up.</p>
 {% endif %}
-
+    </div>
+</div>
 
 <div id="#siteloader"></div>
 

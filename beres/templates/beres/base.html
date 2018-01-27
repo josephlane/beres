@@ -6,78 +6,79 @@
     <title>Beres - Find The Best Resources To Your Topics Of Interest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
-
     <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="https://getbootstrap.com/docs/3.3/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- Custom Application Styles -->
     <link rel="stylesheet" href="{% static 'css/beres.css' %}">
 
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-                <a class="navbar-brand" href="/beres">BERES</a>
-            </div>
 
 
-            <div class="collapse navbar-collapse">
 
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/beres/">Home</a></li>
-                    <li><a href="{% url 'beres:about_us' %}">About</a></li>
-                    <li><a href="{% url 'beres:contact_us' %}">Contact</a></li>
-                </ul>
 
-                <ul class="nav navbar-nav navbar-right">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">BERES</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/beres/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'beres:about_us' %}">About Us</a>
+            </li>
+          </ul>
+               <ul class="nav navbar-nav navbar-right">
                     {% if not request.user.is_authenticated %}
-                    <li><a href="{% url 'beres:register' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li>
+                        <a class="nav-link" href="{% url 'beres:register' %}"><span class="far fa-user"></span> Sign Up</a>
+                    </li>
                     {% endif %}
                     
                     {% if request.user.is_authenticated %}
                     
-                    <li><a>{{request.user.username}}</a></li>   
-                    
+                    <li><a class="nav-link">{{request.user.username}}</a></li>   
+        &nbsp;            
                     {% endif %}
                     
                     <li>
                         {% if request.user.is_authenticated %}
-                        <a href="{% url 'beres:logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a> 
+                        <a class="nav-link" href="{% url 'beres:logout' %}"><span class="fas fa-sign-out-alt"></span> Logout</a> 
                         {% else %}
-                            <a href="{% url 'beres:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a> 
+                            <a class="nav-link" href="{% url 'beres:login' %}"><span class="fas fa-sign-in-alt"></span> Login</a> 
                         {% endif %}
                     </li>
                 </ul>
-
-            </div>
         </div>
+      </div>
     </nav>
+
     <div class="container">
         {% block content %} {% endblock %}
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- JQuery -->    
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}" ></script>
+
+    <!-- Tooltip Libraries -->
+    <script src="{% static 'js/popper.js' %}" ></script>
+    <script src="{% static 'js/tooltip.js' %}" ></script>
+    
+    <!-- Application Custom JavaScript -->
     <script src="{% static 'js/beres.js' %}"></script>
+
+    <!-- Font Awesome Library -->
+    <script src="{% static 'js/fontawesome-all.js' %}"></script>
+    
     {% block javascript %}{% endblock %}
+
 </body>
 
 </html>

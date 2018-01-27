@@ -19,7 +19,13 @@
 
 <form action="/beres/{{ topic_id }}/save_resource/" method="post">
     {% csrf_token %}
-
+    <div class="row">
+        <div class="col-lg-6">
+            <span class="text-muted"> example: http://www.website.com (must
+                include <b>http://</b>)</span> 
+        </div>
+    </div>
+    <br />
     <div class="row">
         <div class="col-lg-3">
             <input type="url" class="form-control" name="url" placeholder="URL
@@ -31,8 +37,19 @@
     <div class="row">
 
         <div class="col-lg-12">
-            <label class="radio-inline"><input type="radio" name="free" value="Free">Free</label>
-            <label class="radio-inline"><input type="radio" name="free" value="Paid">Paid</label>
+
+
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline1" name="free" value="Free" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline1">Free</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline2" name="free" value="Paid" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline2">Paid</label>
+</div>
+
+
+
 
         </div>
     </div>
