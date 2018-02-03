@@ -2,6 +2,8 @@
 
 <img src="https://github.com/oprblackout/beres/blob/master/static/images/demo%20page.png?raw=true" />
 
+<hr />
+
 Beres is an online application that provides the best resources available for a given topic.
 
 This idea came about as a result of studying computer science fundamentals and having to visit 
@@ -23,4 +25,11 @@ You can visit this application at https://beres-online.herokuapp.com/beres/
 * CSS
 
 * Bootstrap 4
+
+<hr />
+
+### License
+
+This software is available under <a href="https://github.com/josephlane/beres/blob/master/LICENSE">MIT License</a>
+
 
