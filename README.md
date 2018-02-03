@@ -4,9 +4,9 @@
 
 Beres is an online application that provides the best resources available for a given topic.
 
-This idea came about as a result of studying computer science fundalmentals and having to visit 
+This idea came about as a result of studying computer science fundamentals and having to visit 
 numerous websites before I found one worth while. I figured there had to be a portal or website 
-of some sort that you could visit to save time--to my suprise, I couldn't find antyhing. 
+of some sort that you could visit to save time--to my surprise, I couldn't find anything. 
 
 Beres utilizes the community to vote on resources they feel are the most relevant.
 
