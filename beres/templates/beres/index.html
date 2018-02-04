@@ -1,10 +1,31 @@
 {% extends 'beres/base.html' %} {% block javascript %}
 <script>
+    //This block of javascrit is responsible for preventing
+    //a form submission using 'Enter' key. The Enter key
+    //is not needed considering searches are dynamically 
+    //performed as a user types
+    $(document).ready(function(){
+        $("#search-form").keypress(function(event) {
+                ENTER_KEY = '13';
+            if (event.which == ENTER_KEY) {
+                    event.preventDefault();
+                }
+            }
+        ); 
+    });
+
+    //This block of javascript is responsible for fetching search results
+    //as they are typed into the search box.
+    //The user must enter 3 or more characters in order for the search
+    //to perform.
     $("#topic-search").keyup(function() {
         var search_topic_name = $(this).val().trim();
         var search_topic_list = $("#search-topics-data-list");
         var topic_search_label = $(".topic-search-label");
+        //Investigate usage
         var search_results_container = $(".search-results-container");
+        var search_results_not_found = $(".search-no-results");
+        search_results_not_found.addClass('invisible');
 
         if (search_topic_name.length >= 3) {
             $.ajax({
@@ -17,23 +38,25 @@
                     var topics = jQuery.parseJSON(data.topics);
 
                     if (topics.length > 0) {
+                        search_results_not_found.addClass('invisible');
                         search_topic_list.empty();
-
                         for (i = 0; i <= topics.length; i++) {
                             var topic_name = topics[i]['fields'].name;
                             var topic_id = topics[i].pk;
                             search_topic_list.append("<option id='" + topic_id + "' value='" + topic_name + "'>" + topic_name + "</option>");
-
                         }
-
+                    }
+                    else {
+                       search_results_not_found.removeClass('invisible');
                     }
                 }
             });
 
         }
-
     });
 
+    //This block of javascript is responsible for setting the url
+    //for the search results that are clicked on
     $("#topic-search").on('input', function() {
         var val = this.value;
         var id;
@@ -71,7 +94,7 @@
         <div class="row">
 
             <div class="col-lg-12">
-                <form method="post">
+                <form method="post" id="search-form">
                     <input list="search-topics-data-list" on name="topic-search" id="topic-search" class="form-control" placeholder="Enter topic name here to search...">
                     <datalist id="search-topics-data-list">
                             </datalist>
@@ -79,6 +102,15 @@
                 </form>
             </div>
 
+        </div>
+        <br />
+        <div class="row invisible search-no-results">
+            <div class="col-lg-12">
+                <div class="alert alert-info">
+                    <strong>Oooops!</strong> No topics found for your
+                    search 
+                </div>
+            </div>
         </div>
         {% else %}
         <br />
