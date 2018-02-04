@@ -22,10 +22,8 @@
         var search_topic_name = $(this).val().trim();
         var search_topic_list = $("#search-topics-data-list");
         var topic_search_label = $(".topic-search-label");
-        //Investigate usage
-        var search_results_container = $(".search-results-container");
         var search_results_not_found = $(".search-no-results");
-        search_results_not_found.addClass('invisible');
+        search_results_not_found.addClass('d-none');
 
         if (search_topic_name.length >= 3) {
             $.ajax({
@@ -38,7 +36,7 @@
                     var topics = jQuery.parseJSON(data.topics);
 
                     if (topics.length > 0) {
-                        search_results_not_found.addClass('invisible');
+                        search_results_not_found.addClass('d-none');
                         search_topic_list.empty();
                         for (i = 0; i <= topics.length; i++) {
                             var topic_name = topics[i]['fields'].name;
@@ -47,7 +45,7 @@
                         }
                     }
                     else {
-                       search_results_not_found.removeClass('invisible');
+                       search_results_not_found.removeClass('d-none');
                     }
                 }
             });
@@ -104,7 +102,7 @@
 
         </div>
         <br />
-        <div class="row invisible search-no-results">
+        <div class="row d-none search-no-results">
             <div class="col-lg-12">
                 <div class="alert alert-info">
                     <strong>Oooops!</strong> No topics found for your
