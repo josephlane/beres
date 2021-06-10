@@ -1,7 +1,7 @@
 certifi==2018.1.18
 chardet==3.0.4
 dj-database-url==0.4.2
-Django==2.0.1
+Django==2.2.24
 flake8==3.5.0
 idna==2.6
 mccabe==0.6.1
