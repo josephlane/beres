@@ -1,0 +1,68 @@
+{% extends 'beres/base.html' %} {% block content %}
+
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <h3>Add a New Resource</h3>
+    </div>
+
+</div>
+<br />
+<div class="row"> <div class="col-lg-12">
+        {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+    </div>
+
+</div>
+
+<form action="/beres/{{ topic_id }}/save_resource/" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-lg-6">
+            <span class="text-muted"> example: http://www.website.com (must
+                include <b>http://</b>)</span> 
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="url" class="form-control" name="url" placeholder="URL
+" id="id_url" required />
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+
+        <div class="col-lg-12">
+
+
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline1" name="free" value="Free" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline1">Free</label>
+</div>
+<div class="custom-control custom-radio custom-control-inline">
+  <input type="radio" id="customRadioInline2" name="free" value="Paid" class="custom-control-input">
+  <label class="custom-control-label" for="customRadioInline2">Paid</label>
+</div>
+
+
+
+
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <input type="hidden" name="topic_id" value="{{topic_id}}" />
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </div>
+
+
+    </div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Beres - Find The Best Resources To Your Topics Of Interest</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- Custom Application Styles -->
+    <link rel="stylesheet" href="{% static 'css/beres.css' %}">
+
+</head>
+
+<body>
+
+
+
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">BERES</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/beres/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'beres:about_us' %}">About Us</a>
+            </li>
+          </ul>
+               <ul class="nav navbar-nav navbar-right">
+                    {% if not request.user.is_authenticated %}
+                    <li>
+                        <a class="nav-link" href="{% url 'beres:register' %}"><span class="far fa-user"></span> Sign Up</a>
+                    </li>
+                    {% endif %}
+                    
+                    {% if request.user.is_authenticated %}
+                    
+                    <li><a class="nav-link">{{request.user.username}}</a></li>   
+        &nbsp;            
+                    {% endif %}
+                    
+                    <li>
+                        {% if request.user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'beres:logout' %}"><span class="fas fa-sign-out-alt"></span> Logout</a> 
+                        {% else %}
+                            <a class="nav-link" href="{% url 'beres:login' %}"><span class="fas fa-sign-in-alt"></span> Login</a> 
+                        {% endif %}
+                    </li>
+                </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+
+    <!-- JQuery -->    
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}" ></script>
+
+    <!-- Tooltip Libraries -->
+    <script src="{% static 'js/popper.js' %}" ></script>
+    <script src="{% static 'js/tooltip.js' %}" ></script>
+    
+    <!-- Application Custom JavaScript -->
+    <script src="{% static 'js/beres.js' %}"></script>
+
+    <!-- Font Awesome Library -->
+    <script src="{% static 'js/fontawesome-all.js' %}"></script>
+    
+    {% block javascript %}{% endblock %}
+
+</body>
+
+</html>
