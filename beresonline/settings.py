@@ -62,7 +62,7 @@ MIDDLEWARE = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+STATIC_ROOT = "beres/static/"
 ROOT_URLCONF = 'beresonline.urls'
 
 TEMPLATES = [
